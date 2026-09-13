@@ -6,28 +6,28 @@ const registerForm = document.getElementById("registerForm");
 
 if (registerForm) {
   registerForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
+    e.preventDefault(); // Ngăn trang reload lại ngay lập tức
 
     const email = document.getElementById("email").value;
     const password = document.getElementById("password").value;
-    const username = document.getElementById("username") ? document.getElementById("username").value : "";
+    const username = document.getElementById("username")?.value || "";
 
     try {
-      // Lưu tài khoản vào Firebase Authentication
+      // 1. Tạo user trên Firebase Auth
       const userCredential = await createUserWithEmailAndPassword(auth, email, password);
       const user = userCredential.user;
 
-      // Lưu thêm thông tin chi tiết người dùng vào Firestore
+      // 2. Lưu thông tin vào Firestore
       await setDoc(doc(db, "users", user.uid), {
         uid: user.uid,
-        email: email,
         username: username,
-        role: "user", // Hoặc "admin"
+        email: email,
+        role: "user",
         createdAt: new Date().toISOString()
       });
 
-      alert("Đăng ký tài khoản thành công!");
-      window.location.href = "login.html"; // Chuyển sang trang đăng nhập
+      alert("Đăng ký thành công!");
+      window.location.href = "login.html";
     } catch (error) {
       console.error("Lỗi đăng ký:", error);
       alert("Đăng ký thất bại: " + error.message);
