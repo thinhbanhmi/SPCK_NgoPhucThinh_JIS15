@@ -15,20 +15,26 @@ logout.addEventListener("click", function () {
     });
 });
 
+// Kiểm tra xem đang ở trang nào (dùng endsWith để chạy được ở mọi thư mục)
+function isPage(fileName) {
+  return window.location.pathname.endsWith(fileName);
+}
+
 firebase.auth().onAuthStateChanged(function (user) {
   showAuthButtons(user);
   if (!user) {
+    // Chưa đăng nhập mà vào trang admin thì đá về trang đăng nhập
     if (
-      window.location.pathname === "/FrontEnd/admin.html" ||
-      window.location.pathname === "/FrontEnd/user-profile.html"
-    )
+      isPage("admin.html") ||
+      isPage("user-profile.html") ||
+      isPage("pay.html") ||
+      isPage("history.html")
+    ) {
       window.location.href = "./login.html";
-    else return;
+    }
+    return; // Chưa đăng nhập thì dừng ở đây, không chạy tiếp xuống dưới
   }
-  if (
-    user.email == "admin@quangthanh.com" &&
-    window.location.pathname !== "/FrontEnd/admin.html"
-  ) {
+  if (user.email == "admin@quangthanh.com" && !isPage("admin.html")) {
     window.location.href = "./admin.html";
   }
 });
