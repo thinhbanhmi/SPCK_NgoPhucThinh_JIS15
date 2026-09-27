@@ -4,10 +4,11 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Đăng Nhập</title>
+    <title>Đăng Nhập - Palette Studio</title>
 
-    <!-- Bootstrap -->
+    <!-- Bootstrap CSS & Icons -->
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css" rel="stylesheet">
 
     <!-- Firebase -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/firebase/12.16.0/firebase-app-compat.min.js"
@@ -28,41 +29,295 @@
     <!-- Firebase configuration script -->
     <script src="./script/firebase-config.js"></script>
     <script src="./script/login.js"></script>
+
+    <style>
+        body {
+            background: linear-gradient(180deg, #a8ffb2 0%, #c4fca2 40%, #ffe993 100%);
+            min-height: 100vh;
+            font-family: system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+            color: #2d3748;
+            overflow-x: hidden;
+        }
+
+        .login-wrapper {
+            min-height: 100vh;
+        }
+
+        /* --- BÊN TRÁI: SLIDESHOW BỘ BỘ BỘ BỘ NGHỆ THUẬT --- */
+        .showcase-section {
+            background: rgba(255, 255, 255, 0.4);
+            backdrop-filter: blur(16px);
+            border-right: 1px solid rgba(255, 255, 255, 0.5);
+            padding: 3rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .carousel-item {
+            transition: transform 0.8s ease-in-out, opacity 0.8s ease-in-out;
+        }
+
+        .carousel-img-container {
+            width: 100%;
+            height: 420px;
+            border-radius: 20px;
+            overflow: hidden;
+            box-shadow: 0 15px 35px rgba(5, 150, 105, 0.15);
+            border: 2px solid rgba(255, 255, 255, 0.8);
+            position: relative;
+        }
+
+        .carousel-img-container img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .carousel-caption-custom {
+            margin-top: 1.5rem;
+            text-align: center;
+        }
+
+        .carousel-caption-custom h4 {
+            color: #047857;
+            font-weight: 700;
+        }
+
+        .carousel-indicators [data-bs-target] {
+            background-color: #059669;
+            height: 4px;
+            border-radius: 2px;
+        }
+
+        /* --- BÊN PHẢI: FORM ĐĂNG NHẬP --- */
+        .form-section {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .card-custom {
+            width: 100%;
+            max-width: 440px;
+            background: rgba(255, 255, 255, 0.88);
+            backdrop-filter: blur(12px);
+            border-radius: 28px;
+            box-shadow: 0 16px 40px rgba(100, 160, 90, 0.18);
+            border: 1px solid rgba(255, 255, 255, 0.8);
+        }
+
+        /* --- LOGO PALETTE --- */
+        .logo-container {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            margin-bottom: 0.5rem;
+        }
+
+        .logo-svg {
+            width: 270px;
+            height: auto;
+        }
+
+        /* --- FORM STYLES --- */
+        .form-control {
+            border-radius: 0 12px 12px 0;
+            padding: 0.75rem 0.9rem;
+            border: 1px solid #d1fae5;
+            background-color: rgba(255, 255, 255, 0.9);
+            color: #1f2937;
+            transition: all 0.2s ease-in-out;
+        }
+
+        .form-control:focus {
+            background-color: #ffffff;
+            border-color: #34d399;
+            box-shadow: 0 0 0 0.25rem rgba(52, 211, 153, 0.25);
+        }
+
+        .input-group-text {
+            border-radius: 12px 0 0 12px;
+            background-color: rgba(236, 253, 245, 0.85);
+            border: 1px solid #d1fae5;
+            color: #059669;
+        }
+
+        .form-check-input:checked {
+            background-color: #10b981;
+            border-color: #10b981;
+        }
+
+        .form-check-input:focus {
+            box-shadow: 0 0 0 0.25rem rgba(52, 211, 153, 0.25);
+            border-color: #34d399;
+        }
+
+        .btn-login-custom {
+            background: linear-gradient(135deg, #5eead4 0%, #34d399 50%, #10b981 100%);
+            border: none;
+            border-radius: 14px;
+            padding: 0.8rem;
+            font-weight: 600;
+            color: #ffffff;
+            letter-spacing: 0.3px;
+            box-shadow: 0 4px 14px rgba(16, 185, 129, 0.3);
+            transition: all 0.2s ease;
+        }
+
+        .btn-login-custom:hover {
+            background: linear-gradient(135deg, #2dd4bf 0%, #10b981 50%, #059669 100%);
+            color: #ffffff;
+            transform: translateY(-2px);
+            box-shadow: 0 6px 18px rgba(16, 185, 129, 0.4);
+        }
+
+        a.register-link {
+            color: #059669;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        a.register-link:hover {
+            color: #047857;
+            text-decoration: underline;
+        }
+    </style>
 </head>
 
-<body class="bg-light d-flex align-items-center vh-100">
+<body>
 
-    <div class="container">
-        <div class="row justify-content-center">
-            <div class="col-12 col-sm-8 col-md-5 col-lg-4">
-                <div class="card shadow-sm border-0 p-4">
-                    <h3 class="text-center fw-bold mb-3">Đăng Nhập</h3>
+    <div class="container-fluid p-0">
+        <div class="row g-0 login-wrapper">
+            
+            <!-- CỘT TRÁI: BANNER SLIDESHOW SẢN PHẨM PALETTE -->
+            <div class="col-lg-7 d-none d-lg-flex showcase-section">
+                <div id="paletteShowcase" class="carousel slide" data-bs-ride="carousel" data-bs-interval="3500">
+                    <div class="carousel-indicators mb-0">
+                        <button type="button" data-bs-target="#paletteShowcase" data-bs-slide-to="0" class="active" aria-current="true"></button>
+                        <button type="button" data-bs-target="#paletteShowcase" data-bs-slide-to="1"></button>
+                        <button type="button" data-bs-target="#paletteShowcase" data-bs-slide-to="2"></button>
+                    </div>
 
-                    <form action="index.html" method="GET">
-                        <div class="mb-3">
-                            <label class="form-label">Email</label>
-                            <input id="txt-email" type="email" class="form-control" placeholder="Nhập email" required>
+                    <div class="carousel-inner">
+                        <!-- Slide 1 -->
+                        <div class="carousel-item active">
+                            <div class="carousel-img-container">
+                                <img src="https://images.unsplash.com/photo-1579783902614-a3fb3927b675?auto=format&fit=crop&w=1000&q=80" alt="Bộ Sưu Tập Màu">
+                            </div>
+                            <div class="carousel-caption-custom">
+                                <h4>Bộ Sưu Tập Màu Sắc Đột Phá</h4>
+                                <p class="text-secondary">Khám phá dải màu tự nhiên mang lại nguồn cảm hứng sáng tạo vô tận.</p>
+                            </div>
                         </div>
-                        <div class="mb-3">
-                            <label class="form-label">Mật khẩu</label>
-                            <input id="txt-password" type="password" class="form-control" placeholder="Nhập mật khẩu"
-                                required>
-                        </div>
-                        <div class="mb-3 form-check">
-                            <input type="checkbox" class="form-check-input" id="remember">
-                            <label class="form-check-label" for="remember">Ghi nhớ đăng nhập</label>
-                        </div>
-                        <button type="submit" class="btn btn-primary w-100 mb-3" id="btn-login">Vào hệ thống</button>
-                    </form>
 
-                    <div class="text-center">
-                        <small class="text-muted">Chưa có tài khoản? <a href="register.html"
-                                class="text-decoration-none">Đăng ký ngay</a></small>
+                        <!-- Slide 2 -->
+                        <div class="carousel-item">
+                            <div class="carousel-img-container">
+                                <img src="https://images.unsplash.com/photo-1541701494587-cb58502866ab?auto=format&fit=crop&w=1000&q=80" alt="Thiết Kế Nghệ Thuật">
+                            </div>
+                            <div class="carousel-caption-custom">
+                                <h4>Thiết Kế Đẳng Cấp & Tinh Tế</h4>
+                                <p class="text-secondary">Tối ưu hóa không gian sáng tạo cho các nghệ sĩ và designer chuyên nghiệp.</p>
+                            </div>
+                        </div>
+
+                        <!-- Slide 3 -->
+                        <div class="carousel-item">
+                            <div class="carousel-img-container">
+                                <img src="https://images.unsplash.com/photo-1513364776144-60967b0f800f?auto=format&fit=crop&w=1000&q=80" alt="Chất Liệu Cao Cấp">
+                            </div>
+                            <div class="carousel-caption-custom">
+                                <h4>Trải Nghiệm Studio Hiện Đại</h4>
+                                <p class="text-secondary">Palette đồng hành cùng bạn trên từng nét vẽ và sản phẩm xuất sắc.</p>
+                            </div>
+                        </div>
                     </div>
                 </div>
             </div>
+
+            <!-- CỘT PHẢI: FORM ĐĂNG NHẬP -->
+            <div class="col-12 col-lg-5 form-section">
+                <div class="card card-custom p-4 p-sm-5">
+
+                    <!-- LOGO PALETTE chuẩn thiết kế -->
+                    <div class="logo-container">
+                        <svg class="logo-svg" viewBox="0 0 420 200" fill="none" xmlns="http://www.w3.org/2000/svg">
+                            <defs>
+                                <linearGradient id="calligraphyGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                                    <stop offset="0%" stop-color="#10b981" />
+                                    <stop offset="60%" stop-color="#059669" />
+                                    <stop offset="100%" stop-color="#047857" />
+                                </linearGradient>
+                                
+                                <filter id="softGlow" x="-20%" y="-20%" width="140%" height="140%">
+                                    <feDropShadow dx="0" dy="4" stdDeviation="6" flood-color="#059669" flood-opacity="0.12"/>
+                                </filter>
+                            </defs>
+                            
+                            <g filter="url(#softGlow)">
+                                <path d="M 175 32 C 192 16, 228 18, 238 36 C 246 52, 235 70, 212 76 C 195 80, 180 72, 180 58 C 180 46, 192 38, 205 42" 
+                                      fill="none" stroke="url(#calligraphyGrad)" stroke-width="2.5" stroke-linecap="round"/>
+                                
+                                <path d="M 208 18 C 210 30, 211 60, 210 92 C 209 108, 203 118, 192 122 C 186 124, 180 120, 184 114 C 188 108, 198 106, 202 94 C 205 85, 205 45, 202 18 Z" 
+                                      fill="url(#calligraphyGrad)"/>
+
+                                <path d="M 202 28 C 172 28, 152 52, 152 76 C 152 104, 182 118, 208 98" 
+                                      fill="none" stroke="url(#calligraphyGrad)" stroke-width="3" stroke-linecap="round"/>
+
+                                <text x="210" y="155" 
+                                      text-anchor="middle"
+                                      font-family="'Playfair Display', 'Cormorant Garamond', 'Georgia', serif" 
+                                      font-size="30" 
+                                      font-weight="600" 
+                                      letter-spacing="16" 
+                                      fill="url(#calligraphyGrad)">PALETTE</text>
+
+                                <path d="M 385 162 C 345 173, 275 178, 210 178 C 145 178, 75 173, 35 162" 
+                                      fill="none" stroke="url(#calligraphyGrad)" stroke-width="2.2" stroke-linecap="round"/>
+                            </g>
+                        </svg>
+                    </div>
+
+                    <h5 class="text-center fw-bold text-secondary mb-4">Đăng Nhập System</h5>
+
+                    <form action="index.html" method="GET">
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-secondary small">Email</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-envelope"></i></span>
+                                <input id="txt-email" type="email" class="form-control" placeholder="Nhập email" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3">
+                            <label class="form-label fw-semibold text-secondary small">Mật khẩu</label>
+                            <div class="input-group">
+                                <span class="input-group-text"><i class="bi bi-lock"></i></span>
+                                <input id="txt-password" type="password" class="form-control" placeholder="Nhập mật khẩu" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-3 form-check">
+                            <input type="checkbox" class="form-check-input" id="remember">
+                            <label class="form-check-label text-secondary small" for="remember">Ghi nhớ đăng nhập</label>
+                        </div>
+
+                        <button type="submit" class="btn btn-login-custom w-100 mb-3" id="btn-login">Vào hệ thống</button>
+                    </form>
+
+                    <div class="text-center pt-2 border-top">
+                        <small class="text-muted">Chưa có tài khoản? <a href="register.html" class="register-link">Đăng ký ngay</a></small>
+                    </div>
+                </div>
+            </div>
+
         </div>
     </div>
+
+    <!-- Bootstrap JS Bundle -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 
 </html>
